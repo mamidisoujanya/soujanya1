@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <ctype.h>
-#include<arpa/inet.h>
+#include <arpa/inet.h>
 #include "newheader.h"
 
  int main(int argc,char *argv[])
