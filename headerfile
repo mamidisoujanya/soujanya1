@@ -1,0 +1,6 @@
+#define ATTLEN 20 /*  attributes length */
+#define OFFSET 42 /* device offset */
+
+int did,attid;	
+char dname[ATTLEN];
+char dlocation[ATTLEN];
