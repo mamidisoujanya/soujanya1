@@ -6,8 +6,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h> 
-#include<ctype.h>
-#include<arpa/inet.h>
+#include <ctype.h>
+#include <arpa/inet.h>
 #include "newheader.h"
 
 void error(const char *msg)
@@ -73,10 +73,8 @@ scanf("%d",&choice);
 
 packet[0]=choice;
 
-
 if(choice==1)
 {
-	
 	printf("add the info\n");
 
 	printf("enter the device id:\n");
@@ -99,7 +97,6 @@ if(choice==1)
 	printf("enter device name length should be less than 20:\n");
 	
 	scanf("%19s",&packet[4]);
-
 	}
 	printf("enter the attribute id 2 for add device location\n");	
 	
@@ -116,7 +113,6 @@ if(choice==1)
 	scanf("%19s",&packet[27]); 
 	}
 	write(sockfd,packet,sizeof(packet));
-
 }
 else if(choice==2)
 {
@@ -143,7 +139,6 @@ else if(choice==2)
 
 else if(choice==3)
 {
-	
 	printf("edit the data\n");
 	
 	printf("enter the device id which one you want change:\n");
@@ -176,8 +171,7 @@ else if(choice==3)
 	}
    	else if(attid==3)
 	{	
- 
-	       packet[3]=ATTLEN;			
+ 	       packet[3]=ATTLEN;			
 		
 	       printf("enter device name length should be less than 20:\n");
 
@@ -188,12 +182,9 @@ else if(choice==3)
 	       printf("enter location length should be less than 20:\n");
 
 	       scanf("%19s",&packet[27]);
-
 	}
 write(sockfd,packet,sizeof(packet));
-
 }
-
 else if(choice==4)
 {
 	printf("remove the device\n");
