@@ -140,7 +140,6 @@
 	{
 	fseek(fp,pos+2,SEEK_SET);
 	fwrite(dname,sizeof(dname),1,fp);
-
 	fseek(fp,pos+22,SEEK_SET);
 	fwrite(dlocation,sizeof(dlocation),1,fp);
 	}
