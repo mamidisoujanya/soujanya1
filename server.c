@@ -37,19 +37,19 @@
 
    listen(sockfd,5);
 
-  while(1)
-   {
+ // while(1)
+ //  {
    clilen=sizeof(cliaddr);
    newsockfd=accept(sockfd,(struct sockaddr *)&cliaddr,&clilen);
    if(newsockfd<0){
     perror("error on accept");
    }
-   printf("Connection accepted from %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
-   if((childpid=fork())==0)
-   {
-   close(sockfd);
-   while(1)
-   {
+   //printf("Connection accepted from %s:%d\n", inet_ntoa(cliaddr.sin_addr), ntohs(cliaddr.sin_port));
+   //if((childpid=fork())==0)
+  // {
+   //close(sockfd);
+   //while(1)
+  // {
    FILE *fp ,*fp1;
    int command;
    read(newsockfd,buff,50);
@@ -58,30 +58,40 @@
 
    if(command==1)
    {
-   int j,i;
+   int j,i,k,m,m2;
    long int pos;
-   char str[2];
+   char str[1];
    printf("add the data\n");
    fp=fopen("base.txt","a");
 	i=buff[2];
-	j=buff[25];
-	str[1]=buff[1];
-	strncpy(dname,&buff[4],sizeof(dname)); 
-	strncpy(dlocation,&buff[27],sizeof(dlocation)); 
+	printf("i is %d",i);
+	k=buff[3];
+printf("k is %d",k);
+	m=k+5;
+	m2=m+2;
+printf("m2 is %d",m2);
+	j=buff[m];
+printf("j is %d",j);
+	
+	
+	
 	pos=ftell(fp);
 	printf("posis %ld",pos);
 	fseek(fp,pos,SEEK_SET);
+	 str[0]=buff[1];
 	fwrite(str,sizeof(str),1,fp);
-    	if(1==i)
-	{
-	fseek(fp,pos+2,SEEK_SET);
+    	//if(1==i)
+	//{
+	fseek(fp,pos+1,SEEK_SET);
+	strcpy(dname,&buff[4]);
 	fwrite(dname,sizeof(dname),1,fp);
-	}
-	if(2==j)
-	{
+	//}
+	//if(2==j)
+	//{
 	fseek(fp,pos+22,SEEK_SET);
+	strcpy(dlocation,&buff[27]); 
 	fwrite(dlocation,sizeof(dlocation),1,fp);
-	}
+	//}
    
    fclose(fp);
    }
@@ -90,112 +100,129 @@
   {
      printf("displaying the data\n");
      char data[50];
-     int pos,did1,id,k;
-     char dn[MAX],dl[MAX];
+     int pos=0,did1,id;
+     char dn[MAX],dl[MAX],ch,k;
      
     	k=buff[1];
 	fp=fopen("base.txt","r");
 	//pos=(k-1)*OFFSET;
-	while(fp!=NULL)
+	while(ch!=EOF)
 	{
-        fseek(fp,pos+1,SEEK_SET);
-	fscanf(fp,"%d",&id);
-		if(id==k)
+        fseek(fp,pos,SEEK_SET);
+	ch = fgetc(fp);
+	//id = atoi(&ch);
+
+		if(ch==k)
        		{
-		fseek(fp,pos+1,SEEK_SET);
+		printf("id is %d",ch);
+		fseek(fp,pos,SEEK_SET);
 		fread(&did1,sizeof(did1),1,fp);
 		data[1]=did1;
    
-		fseek(fp,pos+2,SEEK_SET);
+		fseek(fp,pos+1,SEEK_SET);
 		fread(dn,sizeof(dn),1,fp);
 		strcpy(&data[4],dn);
 
-		fseek(fp,pos+22,SEEK_SET);
+		fseek(fp,pos+21,SEEK_SET);
 		fread(dl,sizeof(dl),1,fp);
 		strcpy(&data[27],dl);
 
      		write(newsockfd,data,sizeof(data));
 		break;
 		}
-		else
-		{
-		pos=pos*OFFSET;
+		//else
+		//{
+		pos=pos+OFFSET;
 		//printf("posis %d",pos);
-		}
+		//}
 	}
   }
 
   else if(command==3)
   {
   printf("edit the data\n");
-  fp=fopen("base.txt","r+");
-  int s,pos; 
+  
+  int pos=0; 
+  char s,ch1;
   s=buff[1];
+fp=fopen("base.txt","r+");
   strcpy(dname,&buff[4]); 
   strcpy(dlocation,&buff[27]); 
-  printf("enter id is %d:",s);  
+  //printf("enter id is %d:",s);  
   printf("att %d:",attid);
-  pos=(s-1)*OFFSET;
-
+ // pos=(s-1)*OFFSET;
+while(ch1!=EOF)
+{
+        fseek(fp,pos,SEEK_SET);
+	ch1 = fgetc(fp);
+	printf("id is %d",ch1);
+	if(ch1==s)
+	{
 	if(attid==1)
 	{
-	fseek(fp,pos+2,SEEK_SET);
+	fseek(fp,pos+1,SEEK_SET);
 	fwrite(dname,sizeof(dname),1,fp);
 	}
 	else if(attid==2)
 	{
-	fseek(fp,pos+22,SEEK_SET);
+	fseek(fp,pos+21,SEEK_SET);
 	fwrite(dlocation,sizeof(dlocation),1,fp);
 	}
 	else if(attid==3)
 	{
-	fseek(fp,pos+2,SEEK_SET);
+	fseek(fp,pos+1,SEEK_SET);
 	fwrite(dname,sizeof(dname),1,fp);
 
-	fseek(fp,pos+22,SEEK_SET);
+	fseek(fp,pos+21,SEEK_SET);
 	fwrite(dlocation,sizeof(dlocation),1,fp);
 	}
-	
+	break;
+	}
+pos=pos+OFFSET;
+}
   fclose(fp);
   }
   else if(command==4)
   {  
   printf("remmove the data\n");
-  int pos,f,l,id1;
-  char data[50];
-  char k=buff[1];
+  int pos=0;
+  char data[41],k,ch1;
+  //char *mtr,*ptr;
+  //mtr=(char*)malloc(500*sizeof(char));
+  //memset(mtr,0,500*sizeof(char));
+  //ptr=mtr;
+  k=buff[1];
   fp=fopen("base.txt","r");
-  fp1=fopen("kk.txt","a");
-
-  while(fgets(data,50,fp)!=NULL)
-     {
-     	if(data[0]==k+'0')
+  fp1=fopen("xxx.txt","a");
+	while(ch1!=EOF &&(fgets(data,41,fp)!=NULL))
 	{
-        f=1;
-	}
-	else
-	{
-	fputs(data,fp1);
-	}
-    l++;
-    printf("lis %d",l);
-   } 
+        fseek(fp,pos,SEEK_SET);
+	ch1 = fgetc(fp);
+	//fgets(data,41,fp);
+	printf("id is %d",ch1);
 	
-  if(f==0)
-  {
-  write(newsockfd,"id not found",20);
+		if(ch1!=k)
+		{
+  		//printf("data is %s",data);
+		//strcpy(ptr,data);
+		//ptr=ptr+strlen(data);
+		
+		fputs(data,fp1);
+		}
+	pos=pos+OFFSET;
+	}
+fclose(fp);
+fclose(fp1);
+remove("base.txt");
+rename("xxx.txt","base.txt");
+ //fp=fopen("base.txt","w");
+//fputs(ptr,fp);
   }
-  fclose(fp);
-  fclose(fp1);
-  remove("base.txt");
-  rename("kk.txt","base.txt");
-  remove("kk.txt");
-}
  
-}   	
-}	
-}
-close(newsockfd);
+//}   	
+//}	
+//}
+//close(newsockfd);
 return 0;
 }
 
