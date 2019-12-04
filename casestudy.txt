@@ -1,6 +1,6 @@
 
 ****add the information
-inputs:							expected output						by cheking usinfhexdump
+inputs:							expected output				by cheking usinghexdump													
 test case1:	
 id:1							1							
 name:sensor						sensor
@@ -18,7 +18,7 @@ lastmodifedtime:8					securifi
 testcase3:
 id:1							1	
 name:sensor						sensor
-location:hyderabadggdhdfhhhssssdffjfjfj			dontcrash system it should print givensize of location hyderabadggdhdfhhh
+location:hyderabadggdhdfhhhssssdffjfjfj			dontcrash system it should print givensize of location 									hyderabadggdhdfhhh
 manufacturer:securifi					securifi
 lastmodifedtime:8					8
 
@@ -31,17 +31,14 @@ lastmodifedtime:8					8
 
 test case1:	
 id:1.1/character/anyoter				print id bust be integer						
-name:sensor						sensor
-location:hyderabad					hyderabad
-manufacturer:securifi					securifi
-lastmodifedtime:8					8
+					
 
 testcase 6:
 id:1							1					
 name:sensor						sensor					
 location:hyderabad					hyderabad
 manufacturer:securifi					securifi
-lastmodifedtime:2.1/character				dont crashsystem print like given wrong formate
+lastmodifedtime:2.1/character				 0     //print given wrong formate
 
 ***edit the information
 test case1:
@@ -67,7 +64,7 @@ lastmodifedtime:9					9
 
 testcase 4:
 
-lastmodifedtime:2.1/character				dont crashsystem print like given wrong formate
+lastmodifedtime:2.1/character				0// print like given wrong formate
 
 
 
