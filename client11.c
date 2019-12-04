@@ -6,8 +6,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h> 
-#include <ctype.h>
-#include <arpa/inet.h>
+#include<ctype.h>
+#include<arpa/inet.h>
 #include "newheader.h"
 
 void error(const char *msg)
@@ -76,7 +76,7 @@ packet[0]=choice;
 
 if(choice==1)
 {
-	int s,l,l1,l2;
+	
 	printf("add the info\n");
 
 	printf("enter the device id:\n");
@@ -94,44 +94,26 @@ if(choice==1)
 
 	packet[2]=attid;
 
-	//while ((getchar()) != '\n'); 
+	packet[3]=ATTLEN;//attribute length
 
 	printf("enter device name length should be less than 20:\n");
 	
-	scanf("%19s",dname);
-
-	s=strlen(dname);
-
-	packet[3]=s;
-
-	strcpy(&packet[4],dname);
+	scanf("%19s",&packet[4]);
 
 	}
 	printf("enter the attribute id 2 for add device location\n");	
-
-	 while ((getchar()) != '\n'); 
-
+	
 	scanf("%d",&attid);
-
-	//l=s+5;
-	packet[25]=attid;
 
 	if(attid==2)
 	{	
-	
+	packet[25]=attid;
+
+	packet[26]=ATTLEN;//attribute length	
+
 	printf("enter location length should be less than 20:\n");
 	
-	scanf("%19s",dlocation); 
-
-	int s1=strlen(dlocation);
-	
-	//l1=l+1;
-
-	packet[26]=s1;
-	
-	//l2=s1+1;
-
-	strcpy(&packet[27],dlocation);
+	scanf("%19s",&packet[27]); 
 	}
 	write(sockfd,packet,sizeof(packet));
 
@@ -175,57 +157,37 @@ else if(choice==3)
         scanf("%d",&attid);
 
 	packet[2]=attid;
-
-
-           
+               
     	 if(attid==1)
 	{
-		
-		printf("enter device name length should be less than 20:\n");
-	
-		scanf("%s",dname);
+		packet[3]=ATTLEN;
 
-		int s=strlen(dname);
+      	        printf("enter device name length should be less than 20:\n");
 
-		packet[3]=s;
-	
-		strcpy(&packet[4],dname);
-
+	        scanf("%19s",&packet[4]);
 	}    
  	else if(attid==2)
 	{
+		packet[26]=ATTLEN;		
+		
 		printf("enter location length should be less than 20:\n");
-	
-		scanf("%s",dlocation); 
 
-		int s1=strlen(dlocation);
-
-		packet[26]=s1;
-
-		strcpy(&packet[27],dlocation);
+	        scanf("%19s",&packet[27]); 
 	}
    	else if(attid==3)
 	{	
  
-	        printf("enter device name length should be less than 20:\n");
-	
-		scanf("%s",dname);
-
-		int s=strlen(dname);
-
-		packet[3]=s;
-	
-		strncpy(&packet[4],dname,s);			
+	       packet[3]=ATTLEN;			
 		
-	        printf("enter location length should be less than 20:\n");
-	
-		scanf("%s",dlocation); 
+	       printf("enter device name length should be less than 20:\n");
 
-		int s1=strlen(dlocation);
+	       scanf("%19s",&packet[4]);
+		
+	       packet[26]=ATTLEN;	
 
-		packet[26]=s1;
+	       printf("enter location length should be less than 20:\n");
 
-		strncpy(&packet[27],dlocation,s1);
+	       scanf("%19s",&packet[27]);
 
 	}
 write(sockfd,packet,sizeof(packet));
@@ -253,8 +215,8 @@ close(sockfd);
 
 exit(1);
 
-//}
 }
+//}
 
 return 0;
 
