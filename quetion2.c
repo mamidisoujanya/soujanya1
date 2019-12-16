@@ -1,14 +1,14 @@
-#include "depot.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#define P(X)                                                                   \
-  X(temparature)                                                               \
-  X(humidity)                                                                  \
-  X(firestate)                                                                 \
-  // X(doorlock)
+#include "depot.h"
+#define P(X)                                                                  
+  X(temparature) \                                                            
+  X(humidity)    \                                                            
+  X(firestate)  \                                                           
+  X(doorlock)
 
 #define f(x) x,
 #define g(x) #x,
@@ -53,20 +53,15 @@ int adddata() {
   printf("enter name\n");
   scanf("%19s", s.name);
   printf("enter locaion\n");
-  while ((getchar()) != '\n')
-    ;
+  while ((getchar()) != '\n');
   scanf("%19s", s.location);
   printf("enter manufacturer\n");
-  while ((getchar()) != '\n')
-    ;
+  while ((getchar()) != '\n');
   scanf("%19s", s.manufacturer);
   printf("enter the n value how many device values you want enter\n");
-  while ((getchar()) != '\n')
-    ;
+  while ((getchar()) != '\n');
   scanf("%d", &s.n);
-
   dpput(temp, newnum, -1, (char *)&s, sizeof(struct devicedata), id);
-
   struct dvpair dp;
   for (i = 0; i < s.n; i++) {
     sprintf(key, "%d.%d", atoi(newnum), i);
@@ -89,8 +84,7 @@ int getdata() {
   scanf("%d", &i);
   sprintf(num, "%d", i);
   struct devicedata *g;
-  g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                 NULL);
+  g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
   printf("%s\n", dperrmsg(dpecode));
   printf("name is :%s\n", g->name);
   printf("location is :%s\n", g->location);
@@ -124,8 +118,7 @@ int editdata() {
   struct dvpair *dvp;
   switch (k) {
   case 1:
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("%s\n", dperrmsg(dpecode));
     printf("enter name\n");
     scanf("%19s", g->name);
@@ -134,34 +127,29 @@ int editdata() {
   case 2:
 
     printf("%s\n", dperrmsg(dpecode));
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("enter locaion\n");
     scanf("%19s", g->location);
     dpput(temp, num, -1, (char *)g, sizeof(struct devicedata), id);
     break;
   case 3:
 
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("%s\n", dperrmsg(dpecode));
     printf("enter manufacturer\n");
     scanf("%19s", g->manufacturer);
     dpput(temp, num, -1, (char *)g, sizeof(struct devicedata), id);
     break;
   case 4:
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("%s\n", dperrmsg(dpecode));
     printf("enter name\n");
     scanf("%19s", g->name);
     printf("enter locaion\n");
-    while ((getchar()) != '\n')
-      ;
+    while ((getchar()) != '\n');
     scanf("%19s", g->location);
     printf("enter manufacturer\n");
-    while ((getchar()) != '\n')
-      ;
+    while ((getchar()) != '\n');
     scanf("%19s", g->manufacturer);
     dpput(temp, num, -1, (char *)g, sizeof(struct devicedata), id);
     break;
@@ -178,14 +166,12 @@ int editdata() {
     break;
   case 6:
 
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("%s\n", dperrmsg(dpecode));
     printf("n is :%d\n", g->n);
     for (l = 0; l < g->n; l++) {
       sprintf(key, "%d.%d", atoi(num), l);
-      dvp =
-          (struct dvpair *)dpget(temp, key, -1, 0, sizeof(struct dvpair), NULL);
+      dvp =(struct dvpair *)dpget(temp, key, -1, 0, sizeof(struct dvpair), NULL);
       printf("%s\n", dperrmsg(dpecode));
       printf("key is%s\n", key);
       printf("enter the  value of");
@@ -195,25 +181,21 @@ int editdata() {
     }
     break;
   case 7:
-    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                   NULL);
+    g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
     printf("%s\n", dperrmsg(dpecode));
     printf("enter name\n");
     scanf("%19s", g->name);
     printf("enter locaion\n");
-    while ((getchar()) != '\n')
-      ;
+    while ((getchar()) != '\n');
     scanf("%19s", g->location);
     printf("enter manufacturer\n");
-    while ((getchar()) != '\n')
-      ;
+    while ((getchar()) != '\n');
     scanf("%19s", g->manufacturer);
     dpput(temp, num, -1, (char *)g, sizeof(struct devicedata), id);
     printf("n is :%d\n", g->n);
     for (l = 0; l < g->n; l++) {
       sprintf(key, "%d.%d", atoi(num), l);
-      dvp =
-          (struct dvpair *)dpget(temp, key, -1, 0, sizeof(struct dvpair), NULL);
+      dvp =(struct dvpair *)dpget(temp, key, -1, 0, sizeof(struct dvpair), NULL);
       printf("%s\n", dperrmsg(dpecode));
       printf("key is%s\n", key);
       printf("enter the  value of");
@@ -221,7 +203,6 @@ int editdata() {
       scanf("%s", dvp->value);
       dpput(temp, key, -1, (char *)dvp, sizeof(struct dvpair), id);
     }
-
     break;
   }
   dpclose(temp);
@@ -237,8 +218,7 @@ int deletedata() {
   struct devicedata *g;
   DEPOT *temp = dpopen("kkfile", DP_OWRITER | DP_OCREAT | DP_OREADER, -1);
   printf("%s\n", dperrmsg(dpecode));
-  g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),
-                                 NULL);
+  g = (struct devicedata *)dpget(temp, num, -1, 0, sizeof(struct devicedata),NULL);
   printf("%s\n", dperrmsg(dpecode));
   dpout(temp, num, -1);
   printf("%s\n", dperrmsg(dpecode));
