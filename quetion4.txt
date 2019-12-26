@@ -1,0 +1,7 @@
+Use the curl library to implement the following HTTP requests. Use the Philips Hue Bridge as an HTTP server for these queries.
+    First add the Hue bridge to Almond to get the "username", "bridge IP" and use that in the following queries. These details can be found from the "/almond/decodedb 1 /tmp/ddb" command.
+    http://<bridge IP>/api/<username>/lights -- GET request to get all the lights that are associated with that bridge. Print the JSON response on the console.
+    http://<bridge IP>/api/<username>/lights/<id> -- GET request to get the attributes of light with given ID
+    http://<bridge IP>/api/<username>/lights/<id> -- PUT request to change the name of the light, body of the request -- {"name":"Living Room Light"}
+    http://<bridge IP>/api/<username>/lights/<id>/state -- PUT request to set attribute values, for example on/off, change brightness and to change the color. body of the request -- { "hue": 50000, "on": true, "bri": 200 } (only the required tags you should keep in the body)
+
