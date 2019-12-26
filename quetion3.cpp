@@ -7,25 +7,26 @@
 using namespace std;
 
 void f1(Event *a) {
-
-  // cout<<"inside"<<endl;
-  cout << "event is:" << a->event << endl;
+  cout << "event is:" << a->event<< endl; 
 }
 void f2(Device *a) {
-  // printf("voidf1\n");
-  // cout<<"inside"<<endl;
-  // cout<<"event is:"<<a->event<<endl;
-}
+  int lni;
+  char *lnv;
+  lni = a->getLastNotificationIndex();
+  lnv = a->getLastNotificationIndexValue();
 
+  cout << "LastNotificationIndex:" << lni
+       << "\nLastNotificationIndexValue:" << lnv << endl;
+}
 int main() {
   int deviceid, index, i, j, OZWNode, ZigBeeShortID, ValueCount, IndexID, Type;
-  char *name, *location, *ZigBeeEUI64, *Value, *IndexDataType, *IndexName,
-      *Name;
-  DevTech DeviceTechnology;
+  char *name, *location, *ZigBeeEUI64, *Value, *IndexDataType, *IndexName, *AssociationTimeStamp, *Name;
+     
   list<Device>::iterator it;
   HADevices hd;
   Device dobj;
   DeviceList dl;
+  hd.initializeFree2();
   dl.Populate();
   for (it = dl.devices.begin(); it != dl.devices.end(); ++it) {
     i = it->getID();
@@ -34,14 +35,14 @@ int main() {
     OZWNode = it->getOZWNode();
     ZigBeeShortID = it->getShortID();
     ZigBeeEUI64 = it->getZigBeeEUI64();
-    DeviceTechnology = it->getDeviceTechnology();
+    AssociationTimeStamp=it->getAssociationTimeStamp();
     ValueCount = it->getValueCount();
 
     cout << "\ndevicid:" << i << "\ndevice name:" << name
          << "\nlocation:" << location << "\nOZWNode:" << OZWNode
          << "\nZigBeeShortID:" << ZigBeeShortID
          << "\nZigBeeEUI64:" << ZigBeeEUI64 << endl
-         << "\nDeviceTechnology:" << DeviceTechnology
+         << "\nAssociationTimeStamp:" << AssociationTimeStamp
          << "\nValueCount:" << ValueCount << endl;
 
     for (j = 0; j < ValueCount; j++) {
@@ -61,25 +62,14 @@ int main() {
   cin >> indexID;
   cout << "enter index value\n";
   cin >> indexvalue;
-  hd.initializeFree2();
+
   Device(deviceID).setValue(indexID, indexvalue);
 
-  // struct Event e;
-  // EventType g;
-  // g=e.event;
-  void (*fun)(Event *) = &f1;
-  void (*fun2)(Device *) = &f2;
-  // hd.broadcastEvent(g);
-  hd.genericCallback(fun2);
-  hd.eventCallback(fun);
+  hd.genericCallback(f2);
 
-  // lni=it->getLastNotificationIndex();
-  // lnv=it->getLastNotificationIndexValue();
-  // cout<<"LastNotificationIndex:"<<lni<<"\nLastNotificationIndexValue:"<<lnv<<endl;
+  hd.eventCallback(f1);
 
-  //******
-  /*static void genericCallback(void (*callback)(Device *));
-     static void eventCallback(void (*callback)(Event*));
-     static void deviceCallback(int DevID, void (*callback)(Device *));*/
-  // hd.genericCallback();
+  while (1) {
+    sleep(1);
+  }
 }
